@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <title>
+				Hack assistant for Fallout New Vegas
+		</title>
+
+		<style>
+			body, textarea, button {
+				font-size: 1.3em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<strong>format:</strong><br>
+		<code>
+			%the_word% %the_score%
+		</code><br>
+		where the score is the number of correct characters. Leave this out for non-tested entries.<br>
+		<textarea id="theinput" cols="15" rows="10"></textarea>
+		<button onclick="dorun()">run</button>
+
+		<div id="output"></div>
+
+	</body>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+	<script type="text/javascript">
+		function dorun() {
+			var input = $.trim($("#theinput").val());
+			var entries = parseinput(input);
+
+			var calc = new Calculator();
+			calc.addrange(entries);
+
+			var matches = calc.getpossiblematches();
+
+			var $output = $("#output");
+			$output.empty();
+			for (var i=0; i!=matches.length; i++) {
+				$output
+					.append(matches[i].label)
+					.append("<br>");
+			}
+		}
+
+		Entry = function(label, numcorrect) {
+			this.label = label;
+			this.numcorrect = Number(numcorrect) || -1;
+		}
+
+		Entry.prototype.howmuchincommon = function(other) {
+			var res = 0;
+
+			for (var i=0; i!=this.label.length; i++) {
+				if (this.label[i] == other.label[i]) {
+					res++;
+				}
+			}
+
+			return res;
+		}
+
+		Calculator = function() {
+			this.entries = [];
+			this.testedentries = [];
+		}
+
+		Calculator.prototype.add = function(entry) {
+			if (entry.numcorrect > -1) {
+				this.testedentries.push(entry);
+			}
+			else {
+				this.entries.push(entry);
+			}
+		}
+
+		Calculator.prototype.addrange = function(list) {
+			for (var i=0; i!=list.length; i++) {
+				this.add(list[i]);
+			}
+		}
+
+		Calculator.prototype.getpossiblematches = function() {
+			if (this.testedentries.length == 0) {
+				return this.entries;
+			}
+
+			var matches = [];
+
+			var cur;
+			var tested;
+			var ismatch = true;
+			for (var i=0; i!=this.entries.length; i++) {
+				cur = this.entries[i];
+				ismatch = true;
+
+				for (var k=0; k!=this.testedentries.length; k++) {
+					tested = this.testedentries[k];
+					if (cur.howmuchincommon(tested) != tested.numcorrect) {
+						ismatch = false;
+						break;
+					}
+				}
+
+
+				if (ismatch) {
+					matches.push(cur);
+				}
+			}
+
+			return matches;
+		}
+
+		function parseinput(input) {
+			var entries = [];
+
+			var parts;
+			var tmp;
+			var lines = input.split(/\n/g);
+			for (var i=0; i!=lines.length; i++) {
+				parts = $.trim(lines[i]).split(/ /);
+				tmp = new Entry(parts[0]);
+
+				if (parts.length == 2) {
+					tmp.numcorrect = Number(parts[1]);
+				}
+
+				entries.push(tmp);
+			}
+
+			return entries;
+		}
+	</script>
+</html>
