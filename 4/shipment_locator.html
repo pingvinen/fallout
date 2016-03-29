@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>Shipment locator</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		thead td {
+			font-weight: bold;
+		}
+
+		td, th {
+			padding: 7px;
+			text-align: left;
+		}
+
+		tbody tr:hover {
+			background-color: #f00;
+		}
+	</style>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<h1>Shipment locator</h1>
+
+	<div id="source"></div>
+
+	<table id="merchants" cellspacing="0">
+		<thead>
+			<tr>
+				<th>_id</th>
+				<th>name</th>
+				<th>location</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<table id="shipments" cellspacing="0">
+		<thead>
+			<tr>
+				<th>_id</th>
+				<th>item</th>
+				<th>shipment quantity</th>
+				<th>quantity</th>
+				<th>merchant</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<script src="db.js"></script>
+	<script src="js/require.js"></script>
+	<script type="text/javascript">
+		require(['js/common.js', 'js/fixbrowserinconsistencies.js'], function(common) {
+			require(['JsonDbFactory'], function(jsonDbFactory) {
+
+				function merchantRowToTableRow(row, tr) {
+					var td = null;
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('_id');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('name');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('location');
+				}
+
+				function merchantTableToTable(db) {
+					var table = document.getElementById('merchants');
+					var tbody = table.tBodies[0];
+
+					// clear existing rows
+					var newTbody = document.createElement('tbody');
+					tbody.parentNode.replaceChild(newTbody, tbody);
+					tbody = newTbody;
+
+					var merchants = db.getTable('merchants');
+					var columns = merchants.getColumns();
+					var rows = merchants.getRows();
+
+					var tr = null;
+					var col = null;
+					var td = null;
+					for (var x in rows) {
+						tr = tbody.insertRow();
+						merchantRowToTableRow(rows[x], tr);						
+					}
+				}
+
+
+				function shipmentRowToTableRow(row, tr) {
+					var td = null;
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('_id');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('item');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('shipmentQuantity');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('quantity');
+
+					td = tr.insertCell(-1);
+					td.innerHTML = row.getValue('merchantId');
+				}
+
+				function shipmentTableToTable(db) {
+					var table = document.getElementById('shipments');
+					var tbody = table.tBodies[0];
+
+					// clear existing rows
+					var newTbody = document.createElement('tbody');
+					tbody.parentNode.replaceChild(newTbody, tbody);
+					tbody = newTbody;
+
+					var table = db.getTable('shipments');
+					var columns = table.getColumns();
+					var rows = table.getRows();
+
+					var tr = null;
+					var col = null;
+					var td = null;
+					for (var x in rows) {
+						tr = tbody.insertRow();
+						shipmentRowToTableRow(rows[x], tr);						
+					}
+				}
+
+
+				var db = jsonDbFactory.getDb();
+				db.load(dbString);
+
+				merchantTableToTable(db);
+				shipmentTableToTable(db);
+			});
+		});
+	</script>
+</body>
+</html>
