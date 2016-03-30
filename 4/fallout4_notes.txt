@@ -1,0 +1,165 @@
+
+Fallout 4
+--------------------------
+
+== Invisible lockpick fix
+
+Edit Fallout4.ini
+Under [Interface] add
+fLockPositionY=100.0000
+
+
+== Rain glitch
+
+Disable "wetness"
+https://www.youtube.com/watch?v=RtEXgkGgP84
+
+
+== Starts up in windowed mode
+
+Edit: C:\Users\<UserName>\Documents\My Games\Fallout4\Fallout4Prefs.ini
+bTopMostWindow=1
+bMaximizeWindow=1
+bBorderless=1
+bFull Screen=1
+iSize H=1200
+iSize W=1600
+
+
+
+List of issues and possible fixes
+http://www.gottabemobile.com/2016/02/11/fallout-4-problems-fixes/
+
+
+
+
+
+Harvesting
+--------------------------
+Fiber optics, Crystal and Steel
+	49 of each per "disarm pass" of the laser field in Jamaica Plains mayorial building (basement)
+	http://gameranx.com/features/id/31697/article/fallout-4-guide-how-to-get-infinite-fiber-optics-crystal-and-steel/
+
+
+
+Building a radio beacon
+--------------------------
+
+Small generator + beacon
+
+Ceramic: 	1 +  3 =  4
+Circuitry:	0 +  2 =  2
+Copper: 	2 +  6 =  8
+Crystal: 	0 +  2 =  2
+Gear: 		2 +  0 =  2
+Rubber: 	2 +  1 =  3
+Steel: 		4 + 10 = 14
+
+
+
+Shipments
+--------------------------
+Adhesive
+	Daisy (Goodneighbor)
+	Myrna (Diamond City)
+
+Circuitry
+	Daisy (Goodneighbor)
+	Trashcan Carla (travelling)
+
+Crystal
+	Daisy (Goodneighbor)
+	Trashcan Carla (travelling)
+
+Silver
+	Daisy (Goodneighbor)
+	Cricket (travelling)
+
+Ballistic fiber
+	KLEO (Goodneighbor)
+
+Copper
+	KLEO (Goodneighbor)
+	Arturo (Diamond City)
+
+Lead
+	KLEO (Goodneighbor)
+	Cricket (travelling)
+
+Oil
+	KLEO (Goodneighbor)
+	Trashcan Carla (travelling)
+
+Aluminum
+	Arturo (Diamond City)
+
+Gears
+	Arturo (Diamond City)
+	Cricket (travelling)
+
+Screws
+	Arturo (Diamond City)
+	Trashcan Carla (travelling)
+
+Ceramic
+	Myrna (Diamond City)
+
+Fertilizer
+	Myrna (Diamond City)
+	Connie (Abernathy Farm)
+	Greene (Graygarden)
+
+Plastic
+	Myrna (Diamond City)
+
+Springs
+	Myrna (Diamond City)
+	Cricket (travelling)
+
+Steel
+	Myrna (Diamond City)
+
+Cork
+	Moe (Diamond City)
+
+Wood
+	Moe (Diamond City)
+	Connie (Abernathy Farm)
+	Greene (Graygarden)
+
+Cloth
+	Becky Fallon (Diamond City)
+	Connie (Abernathy Farm)
+	Greene (Graygarden)
+
+Leather
+	Becky Fallon (Diamond City)
+	Connie (Abernathy Farm)
+	Greene (Graygarden)
+
+Antiseptic
+	Dr. Sun (Diamond City)
+	Doc Weathers (Bunker Hill)
+
+Glass
+	Dr. Sun (Diamond City)
+	Doc Weathers (Bunker Hill)
+	Kay (Bunker Hill)
+
+Rubber
+	Dr. Sun (Diamond City)
+	Doc Weathers (Bunker Hill)
+
+Acid
+	Doc Weathers (Bunker Hill)
+	Kay (Bunker Hill)
+
+Nuclear Material
+	Alexis (Vault 81)
+
+Asbestos
+	Trashcan Carla (travelling)
+
+Concrete
+	Connie (Abernathy Farm)
+	Greene (Graygarden)
