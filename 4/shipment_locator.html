@@ -44,11 +44,11 @@
 	<table id="shipments" cellspacing="0">
 		<thead>
 			<tr>
-				<th>_id</th>
 				<th>item</th>
 				<th>shipment quantity</th>
 				<th>quantity</th>
 				<th>merchant</th>
+				<th>location</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,6 +56,7 @@
 	</table>
 
 	<script src="db.js"></script>
+	<script src="js/jquery-2.2.3.min.js"></script>
 	<script src="js/require.js"></script>
 	<script type="text/javascript">
 		require(['js/common.js', 'js/fixbrowserinconsistencies.js'], function(common) {
@@ -97,45 +98,52 @@
 				}
 
 
-				function shipmentRowToTableRow(row, tr) {
-					var td = null;
+				function populateShipments(db) {
+					var $table = $('#shipments');
+					var $tbody = $table.find('tbody');
 
-					td = tr.insertCell(-1);
-					td.innerHTML = row.getValue('_id');
+					var $newTbody = $('<tbody></tbody>');
 
-					td = tr.insertCell(-1);
-					td.innerHTML = row.getValue('item');
+					var shipments = db.getTable('shipments');
+					var merchants = db.getTable('merchants');
 
-					td = tr.insertCell(-1);
-					td.innerHTML = row.getValue('shipmentQuantity');
+					var shipmentRows = shipments.getRows();
 
-					td = tr.insertCell(-1);
-					td.innerHTML = row.getValue('quantity');
+					for (var x in shipmentRows) {
+						var row = shipmentRows[x];
+						$newTbody.append(makeShipmentRow(row, merchants.getById(row.getValue('merchantId'))));
+					}
 
-					td = tr.insertCell(-1);
-					td.innerHTML = row.getValue('merchantId');
+
+					$table.find('tbody').empty().append($newTbody.children());
 				}
 
-				function shipmentTableToTable(db) {
-					var table = document.getElementById('shipments');
-					var tbody = table.tBodies[0];
 
-					// clear existing rows
-					var newTbody = document.createElement('tbody');
-					tbody.parentNode.replaceChild(newTbody, tbody);
-					tbody = newTbody;
+				function makeShipmentRow(shipment, merchant) {
+					var $tr = $('<tr></tr>');
 
-					var table = db.getTable('shipments');
-					var columns = table.getColumns();
-					var rows = table.getRows();
+					$tr
+						.prop('shipmentId', shipment.getId())
+						.prop('merchantId', merchant.getId())
+						.append(
+							$('<td></td>').text(shipment.getValue('item'))
+						)
+						.append(
+							$('<td></td>').text(shipment.getValue('shipmentQuantity'))
+						)
+						.append(
+							$('<td></td>').text(shipment.getValue('quantity'))
+						)
+						.append(
+							$('<td></td>').text(merchant.getValue('name'))
+						)
+						.append(
+							$('<td></td>').text(merchant.getValue('location'))
+						)
+						;
 
-					var tr = null;
-					var col = null;
-					var td = null;
-					for (var x in rows) {
-						tr = tbody.insertRow();
-						shipmentRowToTableRow(rows[x], tr);						
-					}
+
+					return $tr;
 				}
 
 
@@ -143,7 +151,8 @@
 				db.load(dbString);
 
 				merchantTableToTable(db);
-				shipmentTableToTable(db);
+
+				populateShipments(db);
 			});
 		});
 	</script>
