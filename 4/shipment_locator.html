@@ -11,12 +11,21 @@
 		}
 
 		td, th {
-			padding: 7px;
+			padding: 0.5em;
 			text-align: left;
 		}
 
 		tbody tr:hover {
 			background-color: #f00;
+		}
+
+		#searchInput {
+			font-size: 2em;
+		}
+
+		#shipments {
+			margin-top: 3em;
+			margin-bottom: 3em;
 		}
 	</style>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -29,17 +38,9 @@
 <body>
 	<h1>Shipment locator</h1>
 
-	<table id="merchants" cellspacing="0">
-		<thead>
-			<tr>
-				<th>_id</th>
-				<th>name</th>
-				<th>location</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
+	<div>
+		<input type="text" id="searchInput" placeholder="Search term" />
+	</div>
 
 	<table id="shipments" cellspacing="0">
 		<thead>
@@ -55,12 +56,29 @@
 		</tbody>
 	</table>
 
+
+	<table id="merchants" cellspacing="0">
+		<thead>
+			<tr>
+				<th>_id</th>
+				<th>name</th>
+				<th>location</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
 	<script src="db.js"></script>
 	<script src="js/jquery-2.2.3.min.js"></script>
 	<script src="js/require.js"></script>
 	<script type="text/javascript">
 		require(['js/common.js', 'js/fixbrowserinconsistencies.js'], function(common) {
 			require(['JsonDbFactory'], function(jsonDbFactory) {
+
+				function stringContains(str, search) {
+					return str.toLowerCase().indexOf(search.toLowerCase()) > -1;
+				}
 
 				function merchantRowToTableRow(row, tr) {
 					var td = null;
@@ -98,7 +116,7 @@
 				}
 
 
-				function populateShipments(db) {
+				function populateShipments(db, inclusionFilter) {
 					var $table = $('#shipments');
 					var $tbody = $table.find('tbody');
 
@@ -110,8 +128,13 @@
 					var shipmentRows = shipments.getRows();
 
 					for (var x in shipmentRows) {
-						var row = shipmentRows[x];
-						$newTbody.append(makeShipmentRow(row, merchants.getById(row.getValue('merchantId'))));
+						var shipment = shipmentRows[x];
+						var merchant = merchants.getById(shipment.getValue('merchantId'));;
+
+						if (inclusionFilter(shipment, merchant))
+						{
+							$newTbody.append(makeShipmentRow(shipment, merchant));
+						}
 					}
 
 
@@ -146,13 +169,46 @@
 					return $tr;
 				}
 
+				function inclusionFilterAll(shipment, merchant) {
+					return true;
+				}
+
 
 				var db = jsonDbFactory.getDb();
 				db.load(dbString);
 
 				merchantTableToTable(db);
+				populateShipments(db, inclusionFilterAll);
 
-				populateShipments(db);
+				var $search = $('#searchInput');
+				$search.on('keyup', function($e) {
+					var term = $search.val();
+
+					if (term.length > 0) {
+						populateShipments(db, function(shipment, merchant) {
+
+							if (stringContains(shipment.getValue('item'), term))
+							{
+								return true;
+							}
+
+							if (stringContains(merchant.getValue('name'), term))
+							{
+								return true;
+							}
+
+							if (stringContains(merchant.getValue('location'), term))
+							{
+								return true;
+							}
+
+							return false;
+						});
+					}
+					else {
+						populateShipments(db, inclusionFilterAll);
+					}
+				});
 			});
 		});
 	</script>
