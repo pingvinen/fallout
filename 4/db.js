@@ -92,6 +92,12 @@ var dbString = JSON.stringify({
 				"location": "Vault 81",
 				"_id": "alexis"
 			}
+		}, {
+			"values": {
+				"name": "Lucas Miller",
+				"location": "travelling",
+				"_id": "lucasmiller"
+			}
 		}]
 	}, {
 		"name": "shipments",
@@ -513,6 +519,46 @@ var dbString = JSON.stringify({
 				"quantity": 1,
 				"merchantId": "greene",
 				"_id": "c3eb2463-c342-4fe4-93ad-b2f23d6fbb5e"
+			}
+		}, {
+			"values": {
+				"item": "Ballistic fiber",
+				"shipmentQuantity": 25,
+				"quantity": 1,
+				"merchantId": "lucasmiller",
+				"_id": "879f77c2-253f-4158-876b-03f46287ac8f"
+			}
+		}, {
+			"values": {
+				"item": "Cloth",
+				"shipmentQuantity": 25,
+				"quantity": 1,
+				"merchantId": "lucasmiller",
+				"_id": "30ac85e1-237e-45b6-ac9f-c89c0de3ec74"
+			}
+		}, {
+			"values": {
+				"item": "Fiberglass",
+				"shipmentQuantity": 25,
+				"quantity": 1,
+				"merchantId": "lucasmiller",
+				"_id": "c7953864-bfe5-42e6-8689-148fd7224915"
+			}
+		}, {
+			"values": {
+				"item": "Leather",
+				"shipmentQuantity": 25,
+				"quantity": 2,
+				"merchantId": "lucasmiller",
+				"_id": "20081041-9642-4e29-bdd4-829d194cde74"
+			}
+		}, {
+			"values": {
+				"item": "Steel",
+				"shipmentQuantity": 100,
+				"quantity": 1,
+				"merchantId": "lucasmiller",
+				"_id": "bc95ce4a-7e62-474f-8a02-fb39df6b9ab6"
 			}
 		}]
 	}]
